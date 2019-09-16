@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.frame.Dao.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.frame.Entity.Member">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="memeberName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="certificateType" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="certificateCode" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="firmName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="industry" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="isSelf" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, mobile, memeberName, certificateType, certificateCode, firmName, industry, 
+    isSelf
+  </sql>
+  <select id="selectByExample" parameterType="com.xxx.frame.Entity.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxx.frame.Entity.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxx.frame.Entity.Member">
+    insert into member (id, user_id, mobile, 
+      memeberName, certificateType, certificateCode, 
+      firmName, industry, isSelf
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{memebername,jdbcType=VARCHAR}, #{certificatetype,jdbcType=VARCHAR}, #{certificatecode,jdbcType=VARCHAR}, 
+      #{firmname,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{isself,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.frame.Entity.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="memebername != null">
+        memeberName,
+      </if>
+      <if test="certificatetype != null">
+        certificateType,
+      </if>
+      <if test="certificatecode != null">
+        certificateCode,
+      </if>
+      <if test="firmname != null">
+        firmName,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="isself != null">
+        isSelf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="memebername != null">
+        #{memebername,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatetype != null">
+        #{certificatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatecode != null">
+        #{certificatecode,jdbcType=VARCHAR},
+      </if>
+      <if test="firmname != null">
+        #{firmname,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="isself != null">
+        #{isself,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxx.frame.Entity.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memebername != null">
+        memeberName = #{record.memebername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificatetype != null">
+        certificateType = #{record.certificatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificatecode != null">
+        certificateCode = #{record.certificatecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firmname != null">
+        firmName = #{record.firmname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isself != null">
+        isSelf = #{record.isself,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      memeberName = #{record.memebername,jdbcType=VARCHAR},
+      certificateType = #{record.certificatetype,jdbcType=VARCHAR},
+      certificateCode = #{record.certificatecode,jdbcType=VARCHAR},
+      firmName = #{record.firmname,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      isSelf = #{record.isself,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.frame.Entity.Member">
+    update member
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="memebername != null">
+        memeberName = #{memebername,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatetype != null">
+        certificateType = #{certificatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="certificatecode != null">
+        certificateCode = #{certificatecode,jdbcType=VARCHAR},
+      </if>
+      <if test="firmname != null">
+        firmName = #{firmname,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="isself != null">
+        isSelf = #{isself,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.frame.Entity.Member">
+    update member
+    set user_id = #{userId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      memeberName = #{memebername,jdbcType=VARCHAR},
+      certificateType = #{certificatetype,jdbcType=VARCHAR},
+      certificateCode = #{certificatecode,jdbcType=VARCHAR},
+      firmName = #{firmname,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      isSelf = #{isself,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

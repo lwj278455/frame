@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.frame.Dao.PlayRecordMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.frame.Entity.PlayRecord">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="userId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="playDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, userId, classId, playDate
+  </sql>
+  <select id="selectByExample" parameterType="com.xxx.frame.Entity.PlayRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from playRecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from playRecord
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from playRecord
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxx.frame.Entity.PlayRecordExample">
+    delete from playRecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxx.frame.Entity.PlayRecord">
+    insert into playRecord (id, userId, classId, 
+      playDate)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{classid,jdbcType=INTEGER}, 
+      #{playdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.frame.Entity.PlayRecord">
+    insert into playRecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="classid != null">
+        classId,
+      </if>
+      <if test="playdate != null">
+        playDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="playdate != null">
+        #{playdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxx.frame.Entity.PlayRecordExample" resultType="java.lang.Long">
+    select count(*) from playRecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update playRecord
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classid != null">
+        classId = #{record.classid,jdbcType=INTEGER},
+      </if>
+      <if test="record.playdate != null">
+        playDate = #{record.playdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update playRecord
+    set id = #{record.id,jdbcType=INTEGER},
+      userId = #{record.userid,jdbcType=VARCHAR},
+      classId = #{record.classid,jdbcType=INTEGER},
+      playDate = #{record.playdate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.frame.Entity.PlayRecord">
+    update playRecord
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        classId = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="playdate != null">
+        playDate = #{playdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.frame.Entity.PlayRecord">
+    update playRecord
+    set userId = #{userid,jdbcType=VARCHAR},
+      classId = #{classid,jdbcType=INTEGER},
+      playDate = #{playdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="ClassResult" type="com.xxx.frame.Entity.ClassInfo">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="className" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="isReferral" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="priceType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="Duration" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="creatTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="classImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="playCount" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="columnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="memberCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="applyDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="attendTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+
+  <resultMap id="ResultModel" type="com.xxx.frame.Entity.Model.PlayRecordResult">
+    <collection property="playRecord" resultMap="BaseResultMap"></collection>
+    <collection property="classInfo" resultMap="ClassResult"></collection>
+  </resultMap>
+
+
+  <select id="selectResultByRecord" resultMap="ResultModel" parameterType="com.xxx.frame.Entity.PlayRecord">
+    select * from playRecord p,classInfo c where c.id=p.classID and p.userId=#{userid}
+    <choose>
+      <when test="weekTag==1">
+        and p.playDate &gt;= #{playdate}
+      </when>
+      <otherwise>
+        and  p.playDate &lt;= #{playdate}
+      </otherwise>
+    </choose>
+    order by p.playDate DESC
+  </select>
+
+  <select id="selectByUserId" parameterType="String" resultMap="ResultModel">
+     select * from playRecord p,classInfo c where c.id=p.classID and p.userId=#{userId} order by p.playDate DESC
+  </select>
+
+</mapper>

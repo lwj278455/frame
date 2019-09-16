@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation" th:include="nav :: navigation"></nav>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="border-bottom" th:include="header :: headerTop"></div>
+        <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+            <div class="col-lg-10">
+                <h2>人员管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a>人员管理</a>
+                    </li>
+                    <li class="active">
+                        <strong>用户管理</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>搜索&amp;操作</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                                <div class="ibox-content" style="display: block;">
+                                    <form action="/Manager/ListUser_0_0_0" method="post">
+                                        <div class="row">
+                                            <div class="col-sm-2 m-b-xs">
+                                                <input id="nickname" name="nickname" placeholder="用户昵称" class="form-control" type="text" th:value="${userInfo.nickname}"/>
+                                            </div>
+                                            <div class="col-sm-2 m-b-xs">
+                                                <select name="userLevel" id="userLevel" class="form-control">
+                                                    <option value="-1">请选择用户等级</option>
+                                                    <option value="0" th:selected="${0==userInfo.userLevel}">普通用户</option>
+                                                    <option value="1" th:selected="${1==userInfo.userLevel}">付费用户</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2 m-b-xs">
+                                                <input id="phone" name="phone" class="form-control" type="text" th:value="${userInfo.phone}" placeholder="联系方式" />
+                                            </div>
+                                            <div class="col-sm-2 m-b-xs">
+                                                <input id="realname" name="realname" class="form-control" type="text" th:value="${userInfo.realname}" placeholder="真实姓名" />
+                                            </div>
+
+                                            <div class="col-sm-2 m-b-xs">
+                                                <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong></button>
+                                            </div>
+                                           <!-- <div class="col-sm-2 m-b-xs">
+                                                <a th:href="@{'download1'}" class="btn btn-primary btn-block" >&nbsp;&nbsp;&nbsp;&nbsp;<strong>导出</strong></a>
+                                            </div>-->
+                                        </div>
+                                    </form>
+                                </div>
+                    </div>
+                </div>
+                <div th:if="${#maps.containsKey(page,'seachUser')}" class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>查询结果</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class=" table table-hover" data-page-size="10">
+                                    <thead>
+                                    <tr>
+                                        <th width="5%">ID</th>
+                                        <th width="10%">昵称</th>
+                                        <th width="15%">头像</th>
+                                        <th width="3%">性别</th>
+                                        <th width="3%">等级</th>
+                                        <th width="3%">联系方式</th>
+                                        <th width="3%">真实姓名</th>
+                                        <th width="3%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user : ${page.seachUser}">
+                                        <td th:text="${user.id}">Onions</td>
+                                        <td th:text="${user.decoderNickName()}">Onions</td>
+                                        <td><img th:src="${user.headimgurl}" style="height: 150px;width: 150px"/></td>
+                                        <td th:text="${user.province}">Onions</td>
+                                        <td th:text="${user.userLevel}">Onions</td>
+                                        <td th:text="${user.phone}">Onions</td>
+                                        <td th:text="${user.realname}">Onions</td>
+
+                                        <td>
+                                            <!-- <a th:href="@{'/Manager/UserEdit?id='+${user.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;
+                                             <a th:href="@{'/Manager/dleUser?id='+${user.id}}" title="删除"><i class="fa fa-trash-o text-navy"></i></a>-->
+                                            <a th:href="@{'/Manager/onLineOrderManage_0_0_0?userid='+${user.id}}" title="线上订单">线上订单</a><br/>
+                                            <a th:href="@{'/Manager/offLineOrderManage_0_0_0?userid='+${user.id}}" title="线下订单">线下订单</a><br/>
+                                            <a th:href="@{'/Manager/selectPlayRecord?id='+${user.id}}" title="播放记录">播放记录</a><br/>
+                                            <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='0'}" th:href="@{'/Manager/upLev?id='+${user.id}}" title="升为会员">升为会员</a>
+                                            <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='1'}" th:href="@{'/Manager/downLev?id='+${user.id}}" title="取消会员">取消会员</a>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div th:if="${#maps.containsKey(page,'otherUser')}" class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>其他渠道</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class=" table table-hover" data-page-size="10">
+                                    <thead>
+                                    <tr>
+                                        <th width="5%">ID</th>
+                                        <th width="10%">昵称</th>
+                                        <th width="15%">头像</th>
+                                        <th width="3%">性别</th>
+                                        <th width="3%">等级</th>
+                                        <th width="3%">联系方式</th>
+                                        <th width="3%">真实姓名</th>
+                                        <th width="3%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user : ${page.otherUser}">
+                                        <td th:text="${user.id}">Onions</td>
+                                        <td th:text="${user.decoderNickName()}">Onions</td>
+                                        <td><img th:src="${user.headimgurl}" style="height: 150px;width: 150px"/></td>
+                                        <td th:text="${user.province}">Onions</td>
+                                        <td th:text="${user.userLevel}">Onions</td>
+                                        <td th:text="${user.phone}">Onions</td>
+                                        <td th:text="${user.realname}">Onions</td>
+
+                                        <td>
+                                            <!-- <a th:href="@{'/Manager/UserEdit?id='+${user.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
+                                             &nbsp;&nbsp;&nbsp;&nbsp;
+                                             <a th:href="@{'/Manager/dleUser?id='+${user.id}}" title="删除"><i class="fa fa-trash-o text-navy"></i></a>-->
+                                            <a th:href="@{'/Manager/onLineOrderManage_0_0_0?userid='+${user.id}}" title="线上订单">线上订单</a><br/>
+                                            <a th:href="@{'/Manager/offLineOrderManage_0_0_0?userid='+${user.id}}" title="线下订单">线下订单</a><br/>
+                                            <a th:href="@{'/Manager/selectPlayRecord?id='+${user.id}}" title="播放记录">播放记录</a><br/>
+                                            <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='0'}" th:href="@{'/Manager/upLev?id='+${user.id}}" title="升为会员">升为会员</a>
+                                            <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='1'}" th:href="@{'/Manager/downLev?id='+${user.id}}" title="取消会员">取消会员</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+
+                <div th:if="${#maps.containsKey(page,'adminUsers')&&page.adminUsers.size()>0}"th:each="adminUsers : ${page.adminUsers}">
+                    <div th:if="${adminUsers.userInfoList.size()>0}" class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5 th:text="${adminUsers.id}" ></h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="table-responsive">
+                                    <table class=" table table-hover" data-page-size="10">
+                                        <thead>
+                                        <tr>
+                                            <th width="5%">ID</th>
+                                            <th width="10%">昵称</th>
+                                            <th width="15%">头像</th>
+                                            <th width="3%">性别</th>
+                                            <th width="3%">等级</th>
+                                            <th width="3%">联系方式</th>
+                                            <th width="3%">真实姓名</th>
+                                            <th width="3%">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user : ${adminUsers.userInfoList}">
+                                            <td th:text="${user.id}">Onions</td>
+                                            <td th:text="${user.decoderNickName()}">Onions</td>
+                                            <td><img th:src="${user.headimgurl}" style="height: 150px;width: 150px"/></td>
+                                            <td th:text="${user.province}">Onions</td>
+                                            <td th:text="${user.userLevel}">Onions</td>
+                                            <td th:text="${user.phone}">Onions</td>
+                                            <td th:text="${user.realname}">Onions</td>
+
+                                            <td>
+                                               <!-- <a th:href="@{'/Manager/UserEdit?id='+${user.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <a th:href="@{'/Manager/dleUser?id='+${user.id}}" title="删除"><i class="fa fa-trash-o text-navy"></i></a>-->
+                                                <a th:href="@{'/Manager/onLineOrderManage_0_0_0?userid='+${user.id}}" title="线上订单">线上订单</a><br/>
+                                                <a th:href="@{'/Manager/offLineOrderManage_0_0_0?userid='+${user.id}}" title="线下订单">线下订单</a><br/>
+                                                <a th:href="@{'/Manager/selectPlayRecord?id='+${user.id}}" title="播放记录">播放记录</a><br/>
+                                                <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='0'}" th:href="@{'/Manager/upLev?id='+${user.id}}" title="升为会员">升为会员</a>
+                                                <a th:if="${session.user.adminlevel=='1'&&user.userLevel=='1'}" th:href="@{'/Manager/downLev?id='+${user.id}}" title="取消会员">取消会员</a>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+
+<!-- iCheck -->
+<script th:src="@{/js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/js/demo/peity-demo.js}"></script>
+
+<!-- FooTable -->
+<script th:src="@{/js/plugins/footable/footable.all.min.js}"></script>
+
+<!-- common -->
+<script th:src="@{/js/common.js}"></script>
+
+<script th:inline="javascript">
+    var pageHTML = [[${pageHTML}]];
+    $(document).ready(function () {
+        $("#pageHTML").html(pageHTML);
+    });
+
+
+</script>
+
+</body>
+
+</html>

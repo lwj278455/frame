@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+
+    <!-- Toastr style -->
+    <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <!-- summernote style -->
+    <link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet" />
+    <link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet" />
+
+    <!-- Sweet Alert -->
+    <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet"/>
+
+    <!-- datetimepicker -->
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation" th:include="nav :: navigation"></nav>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="border-bottom" th:include="header :: headerTop"></div>
+        <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+            <div class="col-lg-10">
+                <h2>商品管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a>商品管理</a>
+                    </li>
+                    <li>
+                        <a>商品管理</a>
+                    </li>
+                    <li class="active">
+                        <strong>课程新增或修改</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>新增或修改商品</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form id="formTag" action="/Manager/classAddOrUpdate" method="post" class="form-horizontal" >
+
+                                <div class="form-group"><label class="col-sm-2 control-label">课程id：</label>
+                                    <div class="col-sm-10">
+                                        <input id="id" name="id" readonly="readonly" type="text" class="form-control" th:value="${classInfo==null?null:classInfo.id}"/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">课程名称：</label>
+                                    <div class="col-sm-10">
+                                        <input id="classname" name="classname" type="text" class="form-control" th:value="${classInfo==null?'':classInfo.classname}"/>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">栏目信息：</label>
+                                    <div class="col-sm-10">
+                                        <select name="columnid" id="columnid" class="form-control" >
+                                            <option value="">--请选择栏目信息--</option>
+                                            <option th:each="ic : ${columnList}" th:value="${ic.id}" th:text="${ic.columnname}" th:selected="${classInfo!=null&&ic==classInfo.columnid}">栏目信息</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">课程类型：</label>
+                                    <div class="col-sm-10">
+                                        <select name="classtype" id="classtype" class="form-control" >
+                                            <option value="">--请选择课程类型--</option>
+                                            <option th:each="ic : ${ConstantManger.classTypeList}" th:value="${ic.tag}" th:text="${ic.classtype}" th:selected="${classInfo==null?false:ic.tag==classInfo.classtype}">课程类型</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">收费类型：</label>
+                                    <div class="col-sm-10">
+                                        <select name="pricetype" id="pricetype" class="form-control" >
+                                            <option value="">--请选择收费类型--</option>
+                                            <option th:each="ic : ${ConstantManger.PAYTYPE}" th:value="${icStat.index}" th:text="${ic}" th:selected="${classInfo!=null&&ic==classInfo.getPayTypeStr()}">收费类型</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">线上/线下：</label>
+                                    <div class="col-sm-10">
+                                        <select name="linetype" id="linetype" class="form-control" >
+                                            <option value="">--请选择线上/线下--</option>
+                                            <option th:each="ic : ${ConstantManger.LINETYPE}" th:value="${icStat.index}" th:text="${ic}" th:selected="${classInfo!=null&&ic==classInfo.getLineTypeStr()}">线上/线下</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div id="imageCell" class="form-group" hidden="hidden">
+                                    <label class="col-sm-2 control-label">图片：</label>
+                                    <div class="col-sm-10">
+                                        <img id="tempImg" th:src="${classInfo==null?null:classInfo.classimg}"  height="250px" width="250px" />
+                                        <input type="hidden" id="classimg" name="classimg" th:value="${classInfo==null?null:classInfo.classimg}">
+                                    </div>
+                                </div>
+
+                                <div id="imputCell" class="form-group">
+                                    <label class="col-sm-2 control-label">图片：</label>
+                                    <div class="col-sm-10">
+                                        <input id="file" name="file" type="file" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="classFileDiv">
+                                    <label class="col-sm-2 control-label">课程文件：</label>
+                                    <div class="col-sm-10">
+                                        <input id="ClassFile" name="ClassFile" type="file" />
+                                        <input id="filepath" name="filepath" type="text" th:value="${classInfo==null?null:classInfo.filepath}" />
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">课程介绍：</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="classcontent" name="classcontent" class="form-control" rows="2" th:text="${classInfo==null?'':classInfo.classcontent}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">主讲人：</label>
+                                    <div class="col-sm-10">
+                                        <input id="speaker" name="speaker"  type="text" class="form-control" th:value="${classInfo==null?null:classInfo.speaker}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">简介：</label>
+                                    <div class="col-sm-10">
+                                        <input id="introduction" name="introduction"  type="text" class="form-control" th:value="${classInfo==null?null:classInfo.introduction}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">可报名人数：</label>
+                                    <div class="col-sm-10">
+                                        <input id="membercount" name="membercount"  type="text" class="form-control" th:value="${classInfo==null?null:classInfo.membercount}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">报名截止日期：</label>
+                                    <div class="col-sm-10">
+                                        <input id="applydate" name="applydate" class="form-control" type="text" th:value="${classInfo==null?null:#dates.format(classInfo.applydate,'yyyy-MM-dd')}" placeholder="报名截止日期" />
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">开课时间：</label>
+                                    <div class="col-sm-10">
+                                        <input id="attendtime" name="attendtime" class="form-control" type="text" th:value="${classInfo==null?null:#dates.format(classInfo.attendtime,'yyyy-MM-dd')}" placeholder="开课时间" />
+                                    </div>
+                                </div>
+
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">价格：</label>
+                                    <div class="col-sm-10">
+                                        <input id="price" name="price" type="text" class="form-control" th:value="${classInfo==null?0:classInfo.price}"/>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button id="submitButton" class="btn btn-primary" type="button">&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+
+<!-- Toastr script -->
+<script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
+
+<!-- common -->
+<script th:src="@{/js/common.js}"></script>
+
+<!-- SUMMERNOTE -->
+<script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
+
+<!-- Sweet alert -->
+<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<!-- datepicker -->
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+
+<script th:inline="javascript">
+    //var image = [[${classInfo==null?null:classInfo.classimg}]];
+    $(document).ready(function () {
+        var error = [[${error}]];
+        var classInfo = [[${classInfo}]];
+        $(document).ready(function () {
+            if(classInfo!=null){
+                $("#imageCell").show();
+            }
+            if(error!=null){
+                swal({
+                    title : "温馨提示",
+                    text : error
+                });
+            }
+        });
+        $("#ClassFile").change(function () {
+            var data = new FormData( );
+            data.append("file",$("#ClassFile").get(0).files[0]);
+
+            $.ajax({
+                url : '/Manager/upLoadFile',
+                scriptCharset : "UTF-8",
+                contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                type : 'POST',
+                cache : false,
+                data : data,
+                processData : false,
+                contentType : false,
+            }).done(function(res) {
+                if(res.errcode==0){
+                    document.getElementById('filepath').value=res.errmsg;
+                }else{
+                    alert(res.get("errcode"));
+                }
+            }).fail(function() {
+                swal({
+                    title : "温馨提示",
+                    text : "图片上传失败！"
+                });
+            });
+
+        });
+
+
+        $("#file").change(function(){
+            var data = new FormData( );
+            data.append("file",$("#file").get(0).files[0]);
+            $.ajax({
+                url : '/Manager/upLoadFile',
+                scriptCharset : "UTF-8",
+                contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                type : 'POST',
+                cache : false,
+                data : data,
+                processData : false,
+                contentType : false,
+            }).done(function(res) {
+                if(res.errcode==0){
+                    //alert(res.errmsg);
+                    $("#imageCell").show();
+                    document.getElementById('tempImg').src=res.errmsg;
+                    document.getElementById('classimg').value = res.errmsg;
+                }else{
+                    alert(res.get("errcode"));
+                }
+            }).fail(function() {
+                swal({
+                    title : "温馨提示",
+                    text : "图片上传失败！"
+                });
+            });
+        });
+        });
+
+
+    $("#attendtime").datetimepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: true,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+
+    $("#applydate").datetimepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: true,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+</script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        /*var E = window.wangEditor
+        var editor = new E('#editor')
+        // 或者 var editor = new E( document.getElementById('editor') )
+        editor.create()*/
+        //初始化编辑器
+        $('#classcontent').summernote({
+            height: 300,
+            mode: 'text/html',
+            htmlMode: true,
+            lineNumbers: true,
+            theme: 'monokai',
+            id:'summerNoteTag',
+            //上传时调用
+            onImageUpload: function (files,editor, $editable) {
+                var data = new FormData();
+                data.append("file",files[0]);
+                $.ajax({
+                    url : '/Manager/upLoadFile',
+                    scriptCharset : "UTF-8",
+                    contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                    type : 'POST',
+                    cache : false,
+                    data : data,
+                    processData : false,
+                    contentType : false,
+                }).done(function(res) {
+                    if(res.errcode==0){
+                        editor.insertImage($editable,"https://www.rebirth901.com"+res.errmsg);
+                        //editor.insertImage($editable,"http://192.168.2.180:8080"+res.errmsg);
+                    }else{
+                        alert(res.get("errmsg"));
+                    }
+                }).fail(function() {
+                    swal({
+                        title : "温馨提示",
+                        text : "图片上传失败！"
+                    });
+                });
+            }
+        });
+        //编辑器赋值
+
+        //提交
+        $("#submitButton").click(function(){
+            if($("#linetype").val() == ""){
+                toastr.error('请选择线上/线下!','提示');
+                return;
+            }
+            if($("#classname").val() == ""){
+                toastr.error('请输入课程名称!','提示');
+                return;
+            }
+            if($("#linetype").val() == "0"){
+                if($("#classtype").val() == ""){
+                    toastr.error('请选择课程类型!','提示');
+                    return;
+                }
+                if($("#price").val() == ""){
+                    toastr.error('请输入商品价格!','提示');
+                    return;
+                }
+                if($("#pricetype").val() == ""){
+                    toastr.error('请选择收费类型!','提示');
+                    return;
+                }
+                if($(!"#imputCell").is(':hidden')){//如果
+                    if($("#file").val()==null || $("#file").val().length <=0 ){
+                        toastr.error('请上传课程图片！','提示');
+                        return;
+                    }
+                }
+                if($("#classtype").val() != 2&&$("#ClassFile").val().length <=0&&$("#id").val()==null ){
+                    toastr.error('请上传课程文件！','提示');
+                    return;
+                }
+            }else if ($("#columnid").val() == ""){
+                toastr.error('请上传栏目信息！','提示');
+                return;
+            }
+            $("#formTag").submit();
+        });
+    });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.frame.Dao.OrderMapper">
+
+    <resultMap id="OrderResult" type="com.xxx.frame.Entity.BaseOrderInfo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="orderNo" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="classId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="userId" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="payMent" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+            <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="creatTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="payTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="closeTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        </constructor>
+    </resultMap>
+    <resultMap id="UserInfoResult" type="com.xxx.frame.Entity.UserInfo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="nickname" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="headimgurl" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="sex" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="user_level" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="realName" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="city" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="country" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="province" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="unionid" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="privilege" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+    <resultMap id="ClassInfoResult" type="com.xxx.frame.Entity.ClassInfo">
+        <constructor>
+            <idArg column="cid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="className" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="classContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="classType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="isReferral" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="priceType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+            <arg column="Duration" javaType="java.lang.Long" jdbcType="BIGINT" />
+            <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="creatTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="classImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="playCount" javaType="java.lang.Long" jdbcType="BIGINT" />
+            <arg column="columnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="memberCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="applyDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="attendTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+    <resultMap id="ClassColumnInfo" type="com.xxx.frame.Entity.ClassColumn">
+        <constructor>
+            <idArg column="cid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="columnName" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="columnContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="columnPrice" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+            <arg column="columnImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="payType" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="Speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+
+    <sql id="SelectBody">
+        where o.userId = u.id and o.classId = c.id
+        <if test="baseOrderInfo!=null">
+            <if test="baseOrderInfo.status!=null and baseOrderInfo.status&gt;=0">
+                and o.status=#{baseOrderInfo.status}
+            </if>
+            <if test="baseOrderInfo.maxOrderTimeStr!=null">
+                and o.creattime &lt;= #{baseOrderInfo.maxOrderTimeStr}
+            </if>
+            <if test="baseOrderInfo.minOrderTimeStr!=null">
+                and o.creattime &gt;= #{baseOrderInfo.minOrderTimeStr}
+            </if>
+            <if test="baseOrderInfo.userid!=null">
+                and o.userid = #{baseOrderInfo.userid}
+            </if>
+        </if>
+    </sql>
+
+
+    <resultMap id="OffBaseResult" type="com.xxx.frame.Entity.Model.OrderResult">
+        <collection property="orderinfo" resultMap="OrderResult"></collection>
+        <collection property="classColumn" resultMap="ClassColumnInfo"></collection>
+        <collection property="userInfo" resultMap="UserInfoResult"></collection>
+    </resultMap>
+
+    <resultMap id="OnBaseResult" type="com.xxx.frame.Entity.Model.OrderResult">
+        <collection property="orderinfo" resultMap="OrderResult"></collection>
+        <collection property="classInfo" resultMap="ClassInfoResult"></collection>
+        <collection property="userInfo" resultMap="UserInfoResult"></collection>
+    </resultMap>
+
+
+    <select id="selectOffLineOrderByExample" resultMap="OffBaseResult" parameterType="com.xxx.frame.Entity.BaseOrderInfo">
+       select *,c.id as cid from offLineOrder as o ,userInfo as u,classColumn as c
+        <include refid="SelectBody"></include>
+    </select>
+
+    <select id="selectOnLineOrderByExample" resultMap="OnBaseResult" parameterType="com.xxx.frame.Entity.BaseOrderInfo">
+        select *,c.id as cid from onLineOrder as o ,userInfo as u,classInfo as c
+        <include refid="SelectBody"></include>
+    </select>
+</mapper>

@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.frame.Dao.ClassInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.frame.Entity.ClassInfo">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="className" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="classType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="isReferral" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="priceType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="Duration" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="creatTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="classImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="playCount" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="columnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="memberCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="applyDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="attendTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, className, classContent, classType, isReferral, priceType, price, Duration, filePath, 
+    creatTime, classImg, lineType, speaker, playCount, columnId, memberCount, applyDate, 
+    attendTime, introduction
+  </sql>
+  <select id="selectByExample" parameterType="com.xxx.frame.Entity.ClassInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from classInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from classInfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from classInfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxx.frame.Entity.ClassInfoExample">
+    delete from classInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxx.frame.Entity.ClassInfo">
+    insert into classInfo (id, className, classContent, 
+      classType, isReferral, priceType, 
+      price, Duration, filePath, 
+      creatTime, classImg, lineType, 
+      speaker, playCount, columnId, 
+      memberCount, applyDate, attendTime, 
+      introduction)
+    values (#{id,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{classcontent,jdbcType=VARCHAR}, 
+      #{classtype,jdbcType=INTEGER}, #{isreferral,jdbcType=INTEGER}, #{pricetype,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{duration,jdbcType=BIGINT}, #{filepath,jdbcType=VARCHAR}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{classimg,jdbcType=VARCHAR}, #{linetype,jdbcType=INTEGER}, 
+      #{speaker,jdbcType=VARCHAR}, #{playcount,jdbcType=BIGINT}, #{columnid,jdbcType=INTEGER}, 
+      #{membercount,jdbcType=INTEGER}, #{applydate,jdbcType=TIMESTAMP}, #{attendtime,jdbcType=TIMESTAMP}, 
+      #{introduction,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.frame.Entity.ClassInfo">
+    insert into classInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="classname != null">
+        className,
+      </if>
+      <if test="classcontent != null">
+        classContent,
+      </if>
+      <if test="classtype != null">
+        classType,
+      </if>
+      <if test="isreferral != null">
+        isReferral,
+      </if>
+      <if test="pricetype != null">
+        priceType,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="duration != null">
+        Duration,
+      </if>
+      <if test="filepath != null">
+        filePath,
+      </if>
+      <if test="creattime != null">
+        creatTime,
+      </if>
+      <if test="classimg != null">
+        classImg,
+      </if>
+      <if test="linetype != null">
+        lineType,
+      </if>
+      <if test="speaker != null">
+        speaker,
+      </if>
+      <if test="playcount != null">
+        playCount,
+      </if>
+      <if test="columnid != null">
+        columnId,
+      </if>
+      <if test="membercount != null">
+        memberCount,
+      </if>
+      <if test="applydate != null">
+        applyDate,
+      </if>
+      <if test="attendtime != null">
+        attendTime,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="classcontent != null">
+        #{classcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="classtype != null">
+        #{classtype,jdbcType=INTEGER},
+      </if>
+      <if test="isreferral != null">
+        #{isreferral,jdbcType=INTEGER},
+      </if>
+      <if test="pricetype != null">
+        #{pricetype,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=BIGINT},
+      </if>
+      <if test="filepath != null">
+        #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null">
+        #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classimg != null">
+        #{classimg,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        #{linetype,jdbcType=INTEGER},
+      </if>
+      <if test="speaker != null">
+        #{speaker,jdbcType=VARCHAR},
+      </if>
+      <if test="playcount != null">
+        #{playcount,jdbcType=BIGINT},
+      </if>
+      <if test="columnid != null">
+        #{columnid,jdbcType=INTEGER},
+      </if>
+      <if test="membercount != null">
+        #{membercount,jdbcType=INTEGER},
+      </if>
+      <if test="applydate != null">
+        #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendtime != null">
+        #{attendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxx.frame.Entity.ClassInfoExample" resultType="java.lang.Long">
+    select count(*) from classInfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update classInfo
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.classname != null">
+        className = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classcontent != null">
+        classContent = #{record.classcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classtype != null">
+        classType = #{record.classtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.isreferral != null">
+        isReferral = #{record.isreferral,jdbcType=INTEGER},
+      </if>
+      <if test="record.pricetype != null">
+        priceType = #{record.pricetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duration != null">
+        Duration = #{record.duration,jdbcType=BIGINT},
+      </if>
+      <if test="record.filepath != null">
+        filePath = #{record.filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creattime != null">
+        creatTime = #{record.creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classimg != null">
+        classImg = #{record.classimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linetype != null">
+        lineType = #{record.linetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.speaker != null">
+        speaker = #{record.speaker,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playcount != null">
+        playCount = #{record.playcount,jdbcType=BIGINT},
+      </if>
+      <if test="record.columnid != null">
+        columnId = #{record.columnid,jdbcType=INTEGER},
+      </if>
+      <if test="record.membercount != null">
+        memberCount = #{record.membercount,jdbcType=INTEGER},
+      </if>
+      <if test="record.applydate != null">
+        applyDate = #{record.applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attendtime != null">
+        attendTime = #{record.attendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.introduction != null">
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update classInfo
+    set id = #{record.id,jdbcType=INTEGER},
+      className = #{record.classname,jdbcType=VARCHAR},
+      classContent = #{record.classcontent,jdbcType=VARCHAR},
+      classType = #{record.classtype,jdbcType=INTEGER},
+      isReferral = #{record.isreferral,jdbcType=INTEGER},
+      priceType = #{record.pricetype,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      Duration = #{record.duration,jdbcType=BIGINT},
+      filePath = #{record.filepath,jdbcType=VARCHAR},
+      creatTime = #{record.creattime,jdbcType=TIMESTAMP},
+      classImg = #{record.classimg,jdbcType=VARCHAR},
+      lineType = #{record.linetype,jdbcType=INTEGER},
+      speaker = #{record.speaker,jdbcType=VARCHAR},
+      playCount = #{record.playcount,jdbcType=BIGINT},
+      columnId = #{record.columnid,jdbcType=INTEGER},
+      memberCount = #{record.membercount,jdbcType=INTEGER},
+      applyDate = #{record.applydate,jdbcType=TIMESTAMP},
+      attendTime = #{record.attendtime,jdbcType=TIMESTAMP},
+      introduction = #{record.introduction,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.frame.Entity.ClassInfo">
+    update classInfo
+    <set>
+      <if test="classname != null">
+        className = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="classcontent != null">
+        classContent = #{classcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="classtype != null">
+        classType = #{classtype,jdbcType=INTEGER},
+      </if>
+      <if test="isreferral != null">
+        isReferral = #{isreferral,jdbcType=INTEGER},
+      </if>
+      <if test="pricetype != null">
+        priceType = #{pricetype,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        Duration = #{duration,jdbcType=BIGINT},
+      </if>
+      <if test="filepath != null">
+        filePath = #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="creattime != null">
+        creatTime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classimg != null">
+        classImg = #{classimg,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        lineType = #{linetype,jdbcType=INTEGER},
+      </if>
+      <if test="speaker != null">
+        speaker = #{speaker,jdbcType=VARCHAR},
+      </if>
+      <if test="playcount != null">
+        playCount = #{playcount,jdbcType=BIGINT},
+      </if>
+      <if test="columnid != null">
+        columnId = #{columnid,jdbcType=INTEGER},
+      </if>
+      <if test="membercount != null">
+        memberCount = #{membercount,jdbcType=INTEGER},
+      </if>
+      <if test="applydate != null">
+        applyDate = #{applydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendtime != null">
+        attendTime = #{attendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.frame.Entity.ClassInfo">
+    update classInfo
+    set className = #{classname,jdbcType=VARCHAR},
+      classContent = #{classcontent,jdbcType=VARCHAR},
+      classType = #{classtype,jdbcType=INTEGER},
+      isReferral = #{isreferral,jdbcType=INTEGER},
+      priceType = #{pricetype,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      Duration = #{duration,jdbcType=BIGINT},
+      filePath = #{filepath,jdbcType=VARCHAR},
+      creatTime = #{creattime,jdbcType=TIMESTAMP},
+      classImg = #{classimg,jdbcType=VARCHAR},
+      lineType = #{linetype,jdbcType=INTEGER},
+      speaker = #{speaker,jdbcType=VARCHAR},
+      playCount = #{playcount,jdbcType=BIGINT},
+      columnId = #{columnid,jdbcType=INTEGER},
+      memberCount = #{membercount,jdbcType=INTEGER},
+      applyDate = #{applydate,jdbcType=TIMESTAMP},
+      attendTime = #{attendtime,jdbcType=TIMESTAMP},
+      introduction = #{introduction,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

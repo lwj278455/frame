@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.frame.Dao.ClassColumnMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.frame.Entity.ClassColumn">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="columnName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="columnContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="columnPrice" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="columnImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="payType" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, columnName, columnContent, columnPrice, columnImg, payType, filePath, lineType, 
+    introduction, Speaker
+  </sql>
+  <select id="selectByExample" parameterType="com.xxx.frame.Entity.ClassColumnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from classColumn
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultModel">
+      select *,classInfo.id as classId,classInfo.introduction as classintroduction,classInfo.speaker as classspeaker,classInfo.lineType as classlineType,classInfo.filePath as classfilePath,classInfo.columnId as classcolumnId,ca.id as caId from
+      classColumn  as classColumn left join
+      memberMien as memberMien on memberMien.columnId=classColumn.id left join
+      classInfo as classInfo on classInfo.columnId=classColumn.id left join
+    clientAuthentication as ca on  ca.columnId=classColumn.id
+    where classColumn.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from classColumn
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxx.frame.Entity.ClassColumnExample">
+    delete from classColumn
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxx.frame.Entity.ClassColumn">
+    insert into classColumn (id, columnName, columnContent, 
+      columnPrice, columnImg, payType, 
+      filePath, lineType, introduction, 
+      Speaker)
+    values (#{id,jdbcType=INTEGER}, #{columnname,jdbcType=VARCHAR}, #{columncontent,jdbcType=VARCHAR}, 
+      #{columnprice,jdbcType=DECIMAL}, #{columnimg,jdbcType=VARCHAR}, #{paytype,jdbcType=VARCHAR}, 
+      #{filepath,jdbcType=VARCHAR}, #{linetype,jdbcType=INTEGER}, #{introduction,jdbcType=VARCHAR}, 
+      #{speaker,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.frame.Entity.ClassColumn">
+    insert into classColumn
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="columnname != null">
+        columnName,
+      </if>
+      <if test="columncontent != null">
+        columnContent,
+      </if>
+      <if test="columnprice != null">
+        columnPrice,
+      </if>
+      <if test="columnimg != null">
+        columnImg,
+      </if>
+      <if test="paytype != null">
+        payType,
+      </if>
+      <if test="filepath != null">
+        filePath,
+      </if>
+      <if test="linetype != null">
+        lineType,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="speaker != null">
+        Speaker,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="columnname != null">
+        #{columnname,jdbcType=VARCHAR},
+      </if>
+      <if test="columncontent != null">
+        #{columncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="columnprice != null">
+        #{columnprice,jdbcType=DECIMAL},
+      </if>
+      <if test="columnimg != null">
+        #{columnimg,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null">
+        #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="filepath != null">
+        #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        #{linetype,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="speaker != null">
+        #{speaker,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxx.frame.Entity.ClassColumnExample" resultType="java.lang.Long">
+    select count(*) from classColumn
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update classColumn
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.columnname != null">
+        columnName = #{record.columnname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columncontent != null">
+        columnContent = #{record.columncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columnprice != null">
+        columnPrice = #{record.columnprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.columnimg != null">
+        columnImg = #{record.columnimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paytype != null">
+        payType = #{record.paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filepath != null">
+        filePath = #{record.filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linetype != null">
+        lineType = #{record.linetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.introduction != null">
+        introduction = #{record.introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.speaker != null">
+        Speaker = #{record.speaker,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update classColumn
+    set id = #{record.id,jdbcType=INTEGER},
+      columnName = #{record.columnname,jdbcType=VARCHAR},
+      columnContent = #{record.columncontent,jdbcType=VARCHAR},
+      columnPrice = #{record.columnprice,jdbcType=DECIMAL},
+      columnImg = #{record.columnimg,jdbcType=VARCHAR},
+      payType = #{record.paytype,jdbcType=VARCHAR},
+      filePath = #{record.filepath,jdbcType=VARCHAR},
+      lineType = #{record.linetype,jdbcType=INTEGER},
+      introduction = #{record.introduction,jdbcType=VARCHAR},
+      Speaker = #{record.speaker,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.frame.Entity.ClassColumn">
+    update classColumn
+    <set>
+      <if test="columnname != null">
+        columnName = #{columnname,jdbcType=VARCHAR},
+      </if>
+      <if test="columncontent != null">
+        columnContent = #{columncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="columnprice != null">
+        columnPrice = #{columnprice,jdbcType=DECIMAL},
+      </if>
+      <if test="columnimg != null">
+        columnImg = #{columnimg,jdbcType=VARCHAR},
+      </if>
+      <if test="paytype != null">
+        payType = #{paytype,jdbcType=VARCHAR},
+      </if>
+      <if test="filepath != null">
+        filePath = #{filepath,jdbcType=VARCHAR},
+      </if>
+      <if test="linetype != null">
+        lineType = #{linetype,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="speaker != null">
+        Speaker = #{speaker,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.frame.Entity.ClassColumn">
+    update classColumn
+    set columnName = #{columnname,jdbcType=VARCHAR},
+      columnContent = #{columncontent,jdbcType=VARCHAR},
+      columnPrice = #{columnprice,jdbcType=DECIMAL},
+      columnImg = #{columnimg,jdbcType=VARCHAR},
+      payType = #{paytype,jdbcType=VARCHAR},
+      filePath = #{filepath,jdbcType=VARCHAR},
+      lineType = #{linetype,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      Speaker = #{speaker,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <resultMap id="ResultModel" type="com.xxx.frame.Entity.ClassColumn">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="columnName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="columnContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="columnPrice" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="columnImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="payType" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="filePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="lineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="introduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Speaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+    <collection property="classList" resultMap="classInfoResult"></collection>
+    <collection property="mien" resultMap="MienResultMap"></collection>
+    <collection property="clientAuthentication" resultMap="ClientAuthenticationResultMap"></collection>
+  </resultMap>
+
+  <resultMap id="classInfoResult" type="com.xxx.frame.Entity.ClassInfo">
+      <constructor>
+        <idArg column="classId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="className" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="classContent" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="classType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="isReferral" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="priceType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="price" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+        <arg column="Duration" javaType="java.lang.Long" jdbcType="BIGINT" />
+        <arg column="classfilePath" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="creatTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <arg column="classImg" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="classlineType" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="classspeaker" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="playCount" javaType="java.lang.Long" jdbcType="BIGINT" />
+        <arg column="classcolumnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="memberCount" javaType="java.lang.Integer" jdbcType="INTEGER" />
+        <arg column="applyDate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <arg column="attendTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <arg column="classintroduction" javaType="java.lang.String" jdbcType="VARCHAR" />
+      </constructor>
+  </resultMap>
+
+          <resultMap id="ClientAuthenticationResultMap" type="com.xxx.frame.Entity.ClientAuthentication">
+            <constructor>
+              <idArg column="caId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+              <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
+              <arg column="columnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            </constructor>
+          </resultMap>
+          <resultMap id="MienResultMap" type="com.xxx.frame.Entity.MemberMien">
+            <constructor>
+              <idArg column="mienId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+              <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
+              <arg column="imgUrl" javaType="java.lang.String" jdbcType="VARCHAR" />
+              <arg column="columnId" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            </constructor>
+          </resultMap>
+
+
+  <select id="selectByE" resultMap="ResultModel" parameterType="com.xxx.frame.Entity.ClassColumn">
+       select *,classInfo.id as classId,classInfo.introduction as classintroduction,classInfo.speaker as classspeaker,classInfo.lineType as classlineType,classInfo.filePath as classfilePath,classInfo.columnId as classcolumnId,ca.id as caId
+      from
+      classColumn  as classColumn left join
+      memberMien as memberMien on memberMien.columnId=classColumn.id left join
+      classInfo as classInfo on classInfo.columnId=classColumn.id left join
+    clientAuthentication as ca on  ca.columnId=classColumn.id
+      <where>
+        <if test="columnname!=null">
+            and classColumn.columnname=#{columnname}
+        </if>
+        <if test="linetype!=null">
+          and classColumn.lineType=#{linetype}
+        </if>
+        <if test="maxPrice!=null">
+          and classColumn.columnprice &lt;= #{maxPrice}
+        </if>
+        <if test="minPrice!=null">
+          and classColumn.columnprice &gt;= #{minPrice}
+        </if>
+        <if test="id!=null">
+          and classColumn.id=#{id}
+        </if>
+      </where>
+  </select>
+
+</mapper>

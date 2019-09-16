@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+
+        <!--是否显示日志-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+            <property name="mergeable" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.92.203.84:3306/frame?useSSL=false"
+                        userId="root"
+                        password="Admin!!2018">
+            <property name="nullCatalogMeansCurrent" value='true'/>
+        </jdbcConnection>
+
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置--><!--com.xxx.frame.Controller-->
+        <javaModelGenerator targetPackage="com.xxx.frame.Entity" targetProject="src/main/java">
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否对model添加 构造函数 -->
+            <property name="constructorBased" value="true"/>
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置-->
+        <!--<sqlMapGenerator targetPackage="com.xxx.frame.Mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>-->
+        <sqlMapGenerator targetPackage="Mapper" targetProject="src/main/resources"/>
+        <!-- 生成DAO的包名和位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.xxx.frame.Dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+
+
+       <!-- <table tableName="classInfo" domainObjectName="ClassInfo">
+            <columnOverride column="classContent" jdbcType="VARCHAR" />
+        </table>-->
+        <table tableName="adminUser" domainObjectName="AdminUser"></table>
+        <!--<table tableName="token" domainObjectName="Token"></table>
+        <table tableName="offLineOrder" domainObjectName="OffLineOrder"></table>
+        <table tableName="playRecord" domainObjectName="PlayRecord"></table>
+        <table tableName="offLineOrderDesc" domainObjectName="OffLineOrderDesc"></table>
+        <table tableName="classInfoDesc" domainObjectName="ClassInfoDesc"></table>
+        <table tableName="comment" domainObjectName="Comment"></table>
+        <table tableName="onLineOrder" domainObjectName="OnLineOrder"></table>
+        <table tableName="member" domainObjectName="Member"></table>-->
+
+
+        <!--<table tableName="companyProfile" domainObjectName="CompanyProfile">
+            <columnOverride column="content" jdbcType="VARCHAR" />
+        </table>-->
+
+       <!-- <table tableName="classColumn" domainObjectName="ClassColumn">
+            <columnOverride column="columnContent" jdbcType="VARCHAR" />
+        </table>-->
+
+
+
+        <!-- <table tableName="clientAuthentication" domainObjectName="ClientAuthentication">
+            <columnOverride column="content" jdbcType="VARCHAR" />
+        </table>
+        <table tableName="mienImg" domainObjectName="MienImg"></table>
+        <table tableName="memberMien" domainObjectName="MemberMien"></table>
+-->
+
+
+        <!--        .mysql text字段无法识别问题
+                <columnOverride column="content" jdbcType="VARCHAR" />
+        -->
+        <!--<table tableName="app_activity" domainObjectName="Activity">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_article" domainObjectName="Article">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+            <!--<columnOverride column="resource" jdbcType="VARCHAR" />-->
+        <!--</table>-->
+        <!--<table tableName="app_audio" domainObjectName="Audio">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_banner" domainObjectName="Banner">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_classes" domainObjectName="Classes">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_column" domainObjectName="Column">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_customer" domainObjectName="Customer">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+            <columnOverride column="custom" jdbcType="VARCHAR" />
+            <columnOverride column="init_custom" jdbcType="VARCHAR" />
+        </table>-->
+        <!--<table tableName="app_doctor" domainObjectName="Doctor">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+            <!--<columnOverride column="info" jdbcType="VARCHAR" />-->
+        <!--</table>-->
+
+        <!--<table tableName="app_title" domainObjectName="Tiele">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_video" domainObjectName="Video">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="sys_dict" domainObjectName="Dict">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+
+        <!--<table tableName="app_discuss" domainObjectName="Discuss">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_learn_log" domainObjectName="LearnLog">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_praise" domainObjectName="Praise">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_subscibe" domainObjectName="Subscibe">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_third_user" domainObjectName="ThirdUser">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+        <!--<table tableName="app_order_log" domainObjectName="OrderLog">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+
+        <!--<table tableName="app_item_bank" domainObjectName="ItemBank">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>-->
+        <!--</table>-->
+
+    </context>
+</generatorConfiguration>
